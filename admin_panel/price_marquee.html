@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Price Update</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        form { background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; margin: 0 auto; text-align: center; }
+        h1 { margin-bottom: 20px; }
+        label { margin-bottom: 10px; display: block; text-align: left; }
+        input[type="number"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 3px; }
+        button { background-color: #5cb85c; color: white; border: none; padding: 10px; border-radius: 3px; cursor: pointer; width: 100%; }
+        button:hover { background-color: #4cae4c; }
+    </style>
+</head>
+<body>
+    <form id="priceForm">
+        <h1>Update Product Prices</h1>
+        <label for="price_copper">Copper Price:</label>
+        <input type="number" id="price_copper" name="price_copper" step="0.01" required>
+        
+        <label for="price_aluminum_ec">Aluminum EC Price:</label>
+        <input type="number" id="price_aluminum_ec" name="price_aluminum_ec" step="0.01" required>
+        
+        <label for="price_aluminum_alloy">Aluminum Alloy Price:</label>
+        <input type="number" id="price_aluminum_alloy" name="price_aluminum_alloy" step="0.01" required>
+        
+        <label for="price_pvc">PVC Price:</label>
+        <input type="number" id="price_pvc" name="price_pvc" step="0.01" required>
+        
+        <label for="price_lldpe">LLDPE Price:</label>
+        <input type="number" id="price_lldpe" name="price_lldpe" step="0.01" required>
+        
+        <button type="submit">Update Prices</button>
+    </form>
+
+    <script>
+        document.getElementById('priceForm').addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const formData = {
+            price_copper: document.getElementById('price_copper').value,
+            price_aluminum_ec: document.getElementById('price_aluminum_ec').value,
+            price_aluminum_alloy: document.getElementById('price_aluminum_alloy').value,
+            price_pvc: document.getElementById('price_pvc').value,
+            price_lldpe: document.getElementById('price_lldpe').value
+          };
+      
+          try {
+            const response = await fetch('/update-prices', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formData)
+            });
+            
+            if (response.ok) {
+              alert('Prices updated successfully!');
+            } else {
+              alert('Error updating prices');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to update prices');
+          }
+        });
+      
+        // Load current prices when page loads
+        fetch('/api/prices')
+          .then(response => response.json())
+          .then(prices => {
+            document.getElementById('price_copper').value = prices.copper;
+            document.getElementById('price_aluminum_ec').value = prices.aluminum_ec;
+            document.getElementById('price_aluminum_alloy').value = prices.aluminum_alloy;
+            document.getElementById('price_pvc').value = prices.pvc;
+            document.getElementById('price_lldpe').value = prices.lldpe;
+          })
+          .catch(error => console.error('Error loading prices:', error));
+      </script>

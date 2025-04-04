@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wire Pricing Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 900px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        input {
+            width: 80px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        .calculate-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .calculate-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Wire Pricing Table</h2>
+    <table>
+        <tr>
+            <th>NO OF CORE</th>
+            <th>SIZE</th>
+            <th>WT OF CONDUCTOR</th>
+            <th>WT OF INSULATION</th>
+            <th>WT OF OUTER SHEATH</th>
+            <th>RATE OF PVC</th>
+            <th>RATE OF ALUMINIUM</th>
+            <th>RAW COST</th>
+            <th>PROCESSING CHARGE</th>
+            <th>LENGTH OF COIL</th>
+            <th>BASIC PRICE OF COIL</th>
+            <th>SUPER STOCKIST</th>
+            <th>DISTRIBUTOR</th>
+            <th>DEALER</th>
+            <th>MRP</th>
+        </tr>
+        <tr>
+            <th>NO OF CORE</th>
+            <th>SQMM</th>
+            <th>KG/KM</th>
+            <th>IN KG/KM</th>
+            <th>KG/KM</th>
+            <th>RS/KG</th>
+            <th>RS/KG</th>
+            <th>RS/KM</th>
+            <th>13.50%</th>
+            <th>MTR</th>
+            <th>0%</th>
+            <th>2%</th>
+            <th>3%</th>
+            <th>6.5%</th>
+            <th>45%</th>
+        </tr>
+        <tr>
+            <td><input type="number" class="noOfCore" value="2.0" readonly></td>
+            <td><input type="number" class="size" value="2.5" readonly></td>
+            <td><input type="number" class="wtOfConductor" value="13.515" readonly></td>
+            <td><input type="number" class="wtOfInsulation" value="18.02" readonly></td>
+            <td><input type="number" class="wtOfOuterSheath" value="64.45" readonly></td>
+            <td><input type="number" class="ratePVC" placeholder="Enter Rate of PVC" required></td>
+            <td><input type="number" class="rateAluminium" placeholder="Enter Rate of Aluminium" required></td>
+            <td><input type="number" class="rawCost" readonly></td>
+            <td><input type="number" class="processingCharge" readonly></td>
+            <td><input type="number" class="length" value="1" readonly></td>
+            <td><input type="number" class="basicPriceOfCoil" readonly></td>
+            <td><input type="number" class="superStockist" readonly></td>
+            <td><input type="number" class="distributor" readonly></td>
+            <td><input type="number" class="dealer" readonly></td>
+            <td><input type="number" class="mrp" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="number" class="noOfCore" value="2.0" readonly></td>
+            <td><input type="number" class="size" value="4.0" readonly></td>
+            <td><input type="number" class="wtOfConductor" value="21.624" readonly></td>
+            <td><input type="number" class="wtOfInsulation" value="25.34" readonly></td>
+            <td><input type="number" class="wtOfOuterSheath" value="83.69" readonly></td>
+            <td><input type="number" class="ratePVC" placeholder="Enter Rate of PVC" required></td>
+            <td><input type="number" class="rateAluminium" placeholder="Enter Rate of Aluminium" required></td>
+            <td><input type="number" class="rawCost" readonly></td>
+            <td><input type="number" class="processingCharge" readonly></td>
+            <td><input type="number" class="length" value="1" readonly></td>
+            <td><input type="number" class="basicPriceOfCoil" readonly></td>
+            <td><input type="number" class="superStockist" readonly></td>
+            <td><input type="number" class="distributor" readonly></td>
+            <td><input type="number" class="dealer" readonly></td>
+            <td><input type="number" class="mrp" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="number" class="noOfCore" value="2.0" readonly></td>
+            <td><input type="number" class="size" value="6.0" readonly></td>
+            <td><input type="number" class="wtOfConductor" value="32.436" readonly></td>
+            <td><input type="number" class="wtOfInsulation" value="29.55" readonly></td>
+            <td><input type="number" class="wtOfOuterSheath" value="105.37" readonly></td>
+            <td><input type="number" class="ratePVC" placeholder="Enter Rate of PVC" required></td>
+            <td><input type="number" class="rateAluminium" placeholder="Enter Rate of Aluminium" required></td>
+            <td><input type="number" class="rawCost" readonly></td>
+            <td><input type="number" class="processingCharge" readonly></td>
+            <td><input type="number" class="length" value="1" readonly></td>
+            <td><input type="number" class="basicPriceOfCoil" readonly></td>
+            <td><input type="number" class="superStockist" readonly></td>
+            <td><input type="number" class="distributor" readonly></td>
+            <td><input type="number" class="dealer" readonly></td>
+            <td><input type="number" class="mrp" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="number" class="noOfCore" value="2.0" readonly></td>
+            <td><input type="number" class="size" value="8.0" readonly></td>
+            <td><input type="number" class="wtOfConductor" value="38.704" readonly></td>
+            <td><input type="number" class="wtOfInsulation" value="41.66" readonly></td>
+            <td><input type="number" class="wtOfOuterSheath" value="128.77" readonly></td>
+            <td><input type="number" class="ratePVC" placeholder="Enter Rate of PVC" required></td>
+            <td><input type="number" class="rateAluminium" placeholder="Enter Rate of Aluminium" required></td>
+            <td><input type="number" class="rawCost" readonly></td>
+            <td><input type="number" class="processingCharge" readonly></td>
+            <td><input type="number" class="length" value="1" readonly></td>
+            <td><input type="number" class="basicPriceOfCoil" readonly></td>
+            <td><input type="number" class="superStockist" readonly></td>
+            <td><input type="number" class="distributor" readonly></td>
+            <td><input type="number" class="dealer" readonly></td>
+            <td><input type="number" class="mrp" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="number" class="noOfCore" value="2.0" readonly></td>
+            <td><input type="number" class="size" value="10.00" readonly></td>
+            <td><input type="number" class="wtOfConductor" value="54.086" readonly></td>
+            <td><input type="number" class="wtOfInsulation" value="47.35" readonly></td>
+            <td><input type="number" class="wtOfOuterSheath" value="157.09" readonly></td>
+            <td><input type="number" class="ratePVC" placeholder="Enter Rate of PVC" required></td>
+            <td><input type="number" class="rateAluminium" placeholder="Enter Rate of Aluminium" required></td>
+            <td><input type="number" class="rawCost" readonly></td>
+            <td><input type="number" class="processingCharge" readonly></td>
+            <td><input type="number" class="length" value="1" readonly></td>
+            <td><input type="number" class="basicPriceOfCoil" readonly></td>
+            <td><input type="number" class="superStockist" readonly></td>
+            <td><input type="number" class="distributor" readonly></td>
+            <td><input type="number" class="dealer" readonly></td>
+            <td><input type="number" class="mrp" readonly></td>
+        </tr>
+        <tr>
+            <td><input type="number" class="noOfCore" value="2.0" readonly></td>
+            <td><input type="number" class="size" value="16.00" readonly></td>
+            <td><input type="number" class="wtOfConductor" value="86.496" readonly></td>
+            <td><input type="number" class="wtOfInsulation" value="71.06" readonly></td>
+            <td><input type="number" class="wtOfOuterSheath" value="225.76" readonly></td>
+            <td><input type="number" class="ratePVC" placeholder="Enter Rate of PVC" required></td>
+            <td><input type="number" class="rateAluminium" placeholder="Enter Rate of Aluminium" required></td>
+            <td><input type="number" class="rawCost" readonly></td>
+            <td><input type="number" class="processingCharge" readonly></td>
+            <td><input type="number" class="length" value="1" readonly></td>
+            <td><input type="number" class="basicPriceOfCoil" readonly></td>
+            <td><input type="number" class="superStockist" readonly></td>
+            <td><input type="number" class="distributor" readonly></td>
+            <td><input type="number" class="dealer" readonly></td>
+            <td><input type="number" class="mrp" readonly></td>
+        </tr>
+    </table>
+    <button class="calculate-button" onclick="calculatePrices()">Calculate</button>
+    <script>
+        async function savePrice(size, price) {
+            try {
+                const response = await fetch('http://localhost:5000/api/prices', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        size: size,
+                        price: price,
+                        coreType: '2core-round'
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to save price');
+                }
+            } catch (error) {
+                console.error('Error saving price:', error);
+            }
+        }
+
+        function calculatePrices() {
+            const rows = document.querySelectorAll('table tr');
+            for (let i = 2; i < rows.length; i++) {
+
+                const row = rows[i];
+                const totalWtInsulation = parseFloat(row.querySelector('.wtOfInsulation').value) || 0;
+                const wtOuterSheath = parseFloat(row.querySelector('.wtOfOuterSheath').value) || 0;
+                const ratePVC = parseFloat(row.querySelector('.ratePVC').value) || 0;
+                const totalWtConductor = parseFloat(row.querySelector('.wtOfConductor').value) || 0;
+                const rateAluminium = parseFloat(row.querySelector('.rateAluminium').value) || 0;
+                const length = 1; // Fixed coil length of 1 meter
+
+                const rawCost = (totalWtInsulation + wtOuterSheath) * ratePVC + totalWtConductor * rateAluminium;
+                const processingCharge = (rawCost / 86.5) * 100;
+                const basicPriceOfCoil = (processingCharge * length) / 1000;
+                const superStockest = basicPriceOfCoil * 102 / 100;
+                const distributor = superStockest * 103 / 100;
+                const dealer = distributor * 106.5 / 100;
+                const mrp = dealer / 55 * 100;
+
+                // Update the respective input fields with calculated values
+                row.querySelector('.rawCost').value = rawCost.toFixed(2);
+                row.querySelector('.processingCharge').value = processingCharge.toFixed(2);
+                row.querySelector('.basicPriceOfCoil').value = basicPriceOfCoil.toFixed(2);
+                row.querySelector('.superStockist').value = superStockest.toFixed(2);
+                row.querySelector('.distributor').value = distributor.toFixed(2);
+                row.querySelector('.dealer').value = dealer.toFixed(2);
+                const mrpValue = mrp.toFixed(2);
+                row.querySelector('.mrp').value = mrpValue;
+                
+                // Save MRP to database
+                const size = parseFloat(row.querySelector('.size').value);
+                savePrice(size, mrpValue);
+            }
+        }
+    </script>
+
+</body>
+</html>
