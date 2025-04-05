@@ -8,7 +8,7 @@ const multer = require('multer');
 const path = require('path'); // Add this line to require the path module
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
