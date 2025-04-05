@@ -2,16 +2,18 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // ✅ Added
 
 const app = express();
-const PORT = 3000;
+const PORT = 3002; // ✅ Changed
 
 // Middleware
+app.use(cors()); // ✅ Added
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '..'))); // Serve static files from the root directory
+app.use(express.static(path.join(__dirname, '..')));
 
-// Serve index.html on root route
+// Serve index.html if needed
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
@@ -19,7 +21,7 @@ app.get('/', (req, res) => {
 // Price file path
 const PRICES_FILE = path.join(__dirname, 'prices.json');
 
-// Initialize prices file if it doesn't exist
+// Initialize prices file if not exists
 if (!fs.existsSync(PRICES_FILE)) {
   fs.writeFileSync(PRICES_FILE, JSON.stringify({
     aluminum_ec: 275.50,
@@ -30,18 +32,15 @@ if (!fs.existsSync(PRICES_FILE)) {
   }, null, 2));
 }
 
-// API to get current prices
+// Get prices
 app.get('/api/prices', (req, res) => {
   fs.readFile(PRICES_FILE, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Error reading prices:', err);
-      return res.status(500).json({ error: 'Error reading prices' });
-    }
+    if (err) return res.status(500).json({ error: 'Error reading prices' });
     res.json(JSON.parse(data));
   });
 });
 
-// Handle form submission from admin
+// Update prices
 app.post('/update-prices', express.json(), (req, res) => {
   const newPrices = {
     aluminum_ec: parseFloat(req.body.price_aluminum_ec),
@@ -52,15 +51,12 @@ app.post('/update-prices', express.json(), (req, res) => {
   };
 
   fs.writeFile(PRICES_FILE, JSON.stringify(newPrices, null, 2), (err) => {
-    if (err) {
-      console.error('Error saving prices:', err);
-      return res.status(500).send('Error saving prices');
-    }
-    res.redirect('/admin_panel/price_marquee.html');
+    if (err) return res.status(500).send('Error saving prices');
+    res.json({ success: true, message: "Prices updated" }); // ✅ Changed
   });
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Admin Panel Server running at http://localhost:${PORT}`);
 });
