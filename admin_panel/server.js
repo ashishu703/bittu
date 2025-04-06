@@ -2,13 +2,18 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
-const cors = require('cors'); // ✅ Added
+const cors = require('cors');
 
 const app = express();
-const PORT = 3002; // ✅ Changed
+const PORT = 3002;
 
-// Middleware
-app.use(cors()); // ✅ Added
+// ✅ Enable CORS for your frontend domain
+app.use(cors({
+  origin: 'https://anocab.com',
+  methods: ['GET', 'POST'],
+  credentials: false
+}));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '..')));
@@ -52,7 +57,7 @@ app.post('/update-prices', express.json(), (req, res) => {
 
   fs.writeFile(PRICES_FILE, JSON.stringify(newPrices, null, 2), (err) => {
     if (err) return res.status(500).send('Error saving prices');
-    res.json({ success: true, message: "Prices updated" }); // ✅ Changed
+    res.json({ success: true, message: "Prices updated" });
   });
 });
 
