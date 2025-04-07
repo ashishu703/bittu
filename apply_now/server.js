@@ -1,13 +1,14 @@
 require('dotenv').config();
+console.log("✅ MONGO_URI loaded:", process.env.MONGO_URI); // <-- Added debug log
+
 const express = require('express');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const path = require('path');
 
-const path = require('path'); // Add this line to require the path module
 const app = express();
-
 const PORT = process.env.PORT || 3001;
 
 // Middleware
@@ -25,8 +26,7 @@ mongoose.connect(mongoURI, {
 .then(() => console.log("✅ MongoDB connected successfully"))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
-
-// MongoDB Schema (Storing PDF as Buffer)
+// MongoDB Schema
 const formSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
@@ -36,12 +36,12 @@ const formSchema = new mongoose.Schema({
   qualification: String,
   experience: String,
   cover_letter: String,
-  resume: { data: Buffer, contentType: String }, // Store PDF as binary
+  resume: { data: Buffer, contentType: String },
 });
 
 const Form = mongoose.model('Form', formSchema);
 
-// Multer setup for file uploads (resume)
+// Multer Setup
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
@@ -66,7 +66,7 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false },
 });
 
-// Route to Handle Form Submission
+// Handle Form Submission
 app.post('/submit-form', upload.single('resume'), async (req, res) => {
   try {
     console.log('Received form data:', req.body);
@@ -82,10 +82,9 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
     await formData.save();
     console.log('Form data saved successfully');
 
-    // Admin Notification Email
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'admin@example.com', // Change to admin email
+      to: 'admin@example.com',
       subject: 'New Job Application Submitted',
       text: `
         A new application has been submitted.
@@ -96,7 +95,6 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
       `,
     };
 
-    // Acknowledgment Email for Applicant
     const userMailOptions = {
       from: process.env.EMAIL_USER,
       to: req.body.email,
@@ -104,7 +102,6 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
       text: `Dear ${req.body.first_name},\n\nThank you for applying for the ${req.body.position_applied} position. We have received your application and will review it soon.\n\nBest Regards,\nHR Team`,
     };
 
-    // Send Emails
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(userMailOptions);
 
@@ -116,7 +113,7 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
   }
 });
 
-// Route to Fetch All Form Submissions (Admin)
+// Fetch Submissions
 app.get('/fetch-forms', async (req, res) => {
   try {
     const forms = await Form.find({}, '_id first_name last_name email phone_no position_applied qualification experience cover_letter');
@@ -126,7 +123,7 @@ app.get('/fetch-forms', async (req, res) => {
   }
 });
 
-// Route to Download Resume
+// Download Resume
 app.get('/download-resume/:id', async (req, res) => {
   try {
     const form = await Form.findById(req.params.id);
@@ -146,7 +143,7 @@ app.get('/download-resume/:id', async (req, res) => {
   }
 });
 
-// Start the Server
+// Start Server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
