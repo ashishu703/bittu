@@ -1,6 +1,4 @@
 require('dotenv').config();
-console.log("✅ MONGO_URI loaded:", process.env.MONGO_URI); // <-- Added debug log
-
 const express = require('express');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
@@ -16,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Mongoose strictQuery to suppress warning
+mongoose.set('strictQuery', true);
+
 // MongoDB Connection
 const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/formDetails';
 
@@ -23,10 +24,10 @@ mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("✅ MongoDB connected successfully"))
+.then(() => console.log(`✅ MongoDB connected successfully to ${mongoURI}`))
 .catch(err => console.error("❌ MongoDB connection error:", err));
 
-// MongoDB Schema
+// MongoDB Schema (Storing PDF as Buffer)
 const formSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
@@ -41,7 +42,7 @@ const formSchema = new mongoose.Schema({
 
 const Form = mongoose.model('Form', formSchema);
 
-// Multer Setup
+// Multer setup for file uploads (resume)
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
@@ -66,7 +67,7 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false },
 });
 
-// Handle Form Submission
+// Route to Handle Form Submission
 app.post('/submit-form', upload.single('resume'), async (req, res) => {
   try {
     console.log('Received form data:', req.body);
@@ -80,11 +81,12 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
     });
 
     await formData.save();
-    console.log('Form data saved successfully');
+    console.log('✅ Form data saved successfully');
 
+    // Admin Notification Email
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'admin@example.com',
+      to: 'admin@example.com', // Change to real admin email
       subject: 'New Job Application Submitted',
       text: `
         A new application has been submitted.
@@ -95,6 +97,7 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
       `,
     };
 
+    // Acknowledgment Email for Applicant
     const userMailOptions = {
       from: process.env.EMAIL_USER,
       to: req.body.email,
@@ -102,18 +105,19 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
       text: `Dear ${req.body.first_name},\n\nThank you for applying for the ${req.body.position_applied} position. We have received your application and will review it soon.\n\nBest Regards,\nHR Team`,
     };
 
+    // Send Emails
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(userMailOptions);
 
-    console.log('Emails sent successfully');
+    console.log('📧 Emails sent successfully');
     res.status(200).send('Form submitted successfully!');
   } catch (err) {
-    console.error('Error submitting form:', err);
+    console.error('❌ Error submitting form:', err);
     res.status(500).send(err.message);
   }
 });
 
-// Fetch Submissions
+// Route to Fetch All Form Submissions (Admin)
 app.get('/fetch-forms', async (req, res) => {
   try {
     const forms = await Form.find({}, '_id first_name last_name email phone_no position_applied qualification experience cover_letter');
@@ -123,7 +127,7 @@ app.get('/fetch-forms', async (req, res) => {
   }
 });
 
-// Download Resume
+// Route to Download Resume
 app.get('/download-resume/:id', async (req, res) => {
   try {
     const form = await Form.findById(req.params.id);
@@ -138,12 +142,12 @@ app.get('/download-resume/:id', async (req, res) => {
 
     res.send(form.resume.data);
   } catch (err) {
-    console.error('Error fetching resume:', err);
+    console.error('❌ Error fetching resume:', err);
     res.status(500).send('Error downloading resume');
   }
 });
 
-// Start Server
+// Start the Server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
 });
