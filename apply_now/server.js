@@ -5,11 +5,13 @@ const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const path = require('path');
+const path = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -86,7 +88,7 @@ app.post('/submit-form', upload.single('resume'), async (req, res) => {
     // Admin Notification Email
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'admin@example.com', // Change to real admin email
+      to: 'admin@anocab.in', // Change to real admin email
       subject: 'New Job Application Submitted',
       text: `
         A new application has been submitted.
