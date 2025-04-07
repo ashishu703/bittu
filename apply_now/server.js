@@ -16,11 +16,15 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/formDetails', {
+const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/formDetails';
+
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
+})
+.then(() => console.log("✅ MongoDB connected successfully"))
+.catch(err => console.error("❌ MongoDB connection error:", err));
+
 
 // MongoDB Schema (Storing PDF as Buffer)
 const formSchema = new mongoose.Schema({
